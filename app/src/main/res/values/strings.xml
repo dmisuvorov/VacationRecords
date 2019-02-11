@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">VacationRecords</string>
+    <string name="btn_text_ok_calendar_picker">OK</string>
+    <string name="btn_text_pick_date">Pick date</string>
+</resources>
