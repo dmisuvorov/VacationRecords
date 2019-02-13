@@ -8,24 +8,34 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <FrameLayout
-            android:layout_width="300dp"
-            android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_pick_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/btn_text_pick_date"/>
-        </FrameLayout>
+                android:text="@string/btn_text_pick_date" />
+
+            <TextView
+                android:id="@+id/txt_pick_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/btn_pick_date"
+                android:textColor="@android:color/black"
+                />
+        </RelativeLayout>
 
         <FrameLayout
-            android:layout_width="300dp"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
         </FrameLayout>
     </LinearLayout>
@@ -33,6 +43,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal">
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
