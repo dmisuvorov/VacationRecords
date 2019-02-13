@@ -1,0 +1,2 @@
+include ':app', ':awesome-calendar'
+project(':awesome-calendar').projectDir = new File('CalendarDateRangePicker/awesome-calendar')
