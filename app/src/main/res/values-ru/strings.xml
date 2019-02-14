@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Учет отпусков</string>
+    <string name="btn_text_ok_calendar_picker">ОК</string>
+    <string name="btn_text_pick_date">Выбрать дату</string>
+    <string name="btn_text_pick_action">Выбрать действие</string>
+    <string name="btn_text_reset">Сброс</string>
+    <string name="btn_text_settings">Настройки</string>
+</resources>

@@ -1,22 +1,27 @@
 package com.media.dmitry68.vacationrecords.calendar;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class CalendarFactory {
-    private String startDate;
-    private String endDate;
+    private Calendar startDateCalendar;
+    private Calendar endDateCalendar;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
 
-    public String getStartDate() {
-        return startDate;
+    public void setStartDateCalendar(Calendar startDateCalendar) {
+        this.startDateCalendar = startDateCalendar;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public void setEndDateCalendar(Calendar endDateCalendar) {
+        this.endDateCalendar = endDateCalendar;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public String getStartDateString() {
+        return simpleDateFormat.format(startDateCalendar.getTime());
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public String getEndDateString() {
+        return simpleDateFormat.format(endDateCalendar.getTime());
     }
 }

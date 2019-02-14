@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +11,7 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp">
 
@@ -20,6 +19,7 @@
                 android:id="@+id/btn_pick_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:text="@string/btn_text_pick_date" />
 
             <TextView
@@ -32,12 +32,54 @@
                 />
         </RelativeLayout>
 
-        <FrameLayout
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:layout_width="130dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_margin="10dp">
 
-        </FrameLayout>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_pick_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/btn_text_pick_action" />
+
+            <TextView
+                android:id="@+id/txt_pick_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/btn_pick_action"
+                android:textColor="@android:color/black"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/btn_text_reset" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/btn_text_settings" />
+        </RelativeLayout>
+
     </LinearLayout>
 
     <LinearLayout
