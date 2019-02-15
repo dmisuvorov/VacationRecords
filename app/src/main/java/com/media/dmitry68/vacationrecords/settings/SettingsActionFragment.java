@@ -20,20 +20,26 @@ import java.util.List;
 
 public class SettingsActionFragment extends Fragment {
     public static final String SETTINGS_ACTION_FRAGMENT_TAG = "settings_action_fragment_tag";
-    private ActionFactory actionFactory = new ActionFactory();
-    private List<String> actionNames = actionFactory.getActionNames();
-    private List<String> actionColorHex = actionFactory.getActionColorHex();
+    private ActionFactory actionFactory;
+    private List<String> actionNames;
+    private List<String> actionColorHex;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View settingsActionView = inflater.inflate(R.layout.fragment_action_settings, container, false);
-        initList(settingsActionView);
+        onGetItems();
         return settingsActionView;
     }
 
+    private void onGetItems() {
+        actionFactory = new ActionFactory();
+    }
+
     private void initList(View rootView) {
+        actionNames = actionFactory.getActionNames();
+        actionColorHex = actionFactory.getActionColorHex();
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
         if (actionNames.size() == actionColorHex.size()) {
             String ATTRIBUTE_NAME_BACKGROUND = "background";

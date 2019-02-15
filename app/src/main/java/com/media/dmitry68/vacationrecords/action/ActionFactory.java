@@ -12,7 +12,6 @@ public class ActionFactory {
     public ActionFactory() {
         DatabaseVacation databaseVacation = ApplicationVacation.getInstance().getDatabaseVacation();
         ActionDao actionDao = databaseVacation.actionDao();
-        actionEntities = actionDao.getAll();
     }
 
     public List<ActionEntity> getActionEntities() {

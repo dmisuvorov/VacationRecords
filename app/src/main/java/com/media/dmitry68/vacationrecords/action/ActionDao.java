@@ -8,11 +8,13 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface ActionDao {
 
     @Query("SELECT * FROM actionentity")
-    List<ActionEntity> getAll();
+    Flowable<List<ActionEntity>> getAll();
 
     @Query("SELECT * FROM actionentity WHERE id = :id")
     ActionEntity getById(long id);
