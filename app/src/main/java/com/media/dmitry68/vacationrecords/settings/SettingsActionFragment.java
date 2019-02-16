@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.media.dmitry68.vacationrecords.R;
+import com.media.dmitry68.vacationrecords.action.ActionCallback;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
 import com.media.dmitry68.vacationrecords.action.ActionFactory;
 
@@ -18,13 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 
-
-public class SettingsActionFragment extends Fragment {
+public class SettingsActionFragment extends Fragment implements ActionCallback {
     public static final String SETTINGS_ACTION_FRAGMENT_TAG = "settings_action_fragment_tag";
-    private ActionFactory actionFactory;
+    private View rootView;
+    private ActionFactory actionFactory = new ActionFactory();
     private List<String> actionNames;
     private List<String> actionColorHex;
 
@@ -32,26 +31,19 @@ public class SettingsActionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View settingsActionView = inflater.inflate(R.layout.fragment_action_settings, container, false);
-        onGetItems(settingsActionView);
-        return settingsActionView;
+        rootView = inflater.inflate(R.layout.fragment_action_settings, container, false);
+        actionFactory.getActionEntities(this);
+        return rootView;
     }
 
-    private void onGetItems(final View rootView) {
-        actionFactory = new ActionFactory();
-        actionFactory.getFlowableActionEntity()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<ActionEntity>>() {
-                    @Override
-                    public void accept(List<ActionEntity> actionEntities) throws Exception {
-                        actionNames = actionFactory.getActionNames(actionEntities);
-                        actionColorHex = actionFactory.getActionColorHex(actionEntities);
-                        initList(rootView);
-                    }
-                });
+    @Override
+    public void onActionLoaded(List<ActionEntity> actionEntities) {
+        actionNames = actionFactory.getActionNames(actionEntities);
+        actionColorHex = actionFactory.getActionColorHex(actionEntities);
+        initList();
     }
 
-    private void initList(View rootView) {
+    private void initList() {
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
         if (actionNames.size() == actionColorHex.size()) {
             String ATTRIBUTE_NAME_BACKGROUND = "background";
@@ -69,4 +61,6 @@ public class SettingsActionFragment extends Fragment {
             actionListView.setAdapter(simpleAdapter);
         }
     }
+
+
 }

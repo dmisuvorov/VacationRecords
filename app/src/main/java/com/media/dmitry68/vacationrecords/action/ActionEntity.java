@@ -11,4 +11,10 @@ public class ActionEntity {
     String name;
 
     String colorHex;
+
+    public ActionEntity(long id, String name, String colorHex) {
+        this.id = id;
+        this.name = name;
+        this.colorHex = colorHex;
+    }
 }

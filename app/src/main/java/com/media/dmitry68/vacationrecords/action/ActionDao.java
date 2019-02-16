@@ -20,6 +20,9 @@ public interface ActionDao {
     ActionEntity getById(long id);
 
     @Insert
+    void insertAll(ActionEntity... actionEntities);
+
+    @Insert
     void insert(ActionEntity actionEntity);
 
     @Update

@@ -1,7 +1,6 @@
 package com.media.dmitry68.vacationrecords;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
 
 public class ApplicationVacation extends Application {
     private static ApplicationVacation instanceApplicationVacation;
@@ -12,7 +11,7 @@ public class ApplicationVacation extends Application {
     public void onCreate() {
         super.onCreate();
         instanceApplicationVacation = this;
-        databaseVacation = Room.databaseBuilder(this, DatabaseVacation.class, "databaseVacation").build();
+        databaseVacation = DatabaseVacation.getInstance(getApplicationContext());
     }
 
     public static ApplicationVacation getInstance() {

@@ -6,21 +6,27 @@ import com.media.dmitry68.vacationrecords.DatabaseVacation;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 public class ActionFactory {
     private ActionDao actionDao;
-    private Flowable<List<ActionEntity>> flowableActionEntity;
 
     public ActionFactory() {
         DatabaseVacation databaseVacation = ApplicationVacation.getInstance().getDatabaseVacation();
         actionDao = databaseVacation.actionDao();
-        flowableActionEntity = actionDao.getAll();
     }
 
-    public Flowable<List<ActionEntity>> getFlowableActionEntity() {
-        return flowableActionEntity;
+    public void getActionEntities(final ActionCallback actionCallback) {
+        actionDao.getAll().observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<ActionEntity>>() {
+                    @Override
+                    public void accept(List<ActionEntity> actionEntities) throws Exception {
+                        actionCallback.onActionLoaded(actionEntities);
+                    }
+                });
     }
+
 
 
     public List<String> getActionNames(List<ActionEntity> actionEntities) {

@@ -6,4 +6,7 @@
     <string name="btn_text_pick_action">Выбрать действие</string>
     <string name="btn_text_reset">Сброс</string>
     <string name="btn_text_settings">Настройки</string>
+    <string name="actions">Действия</string>
+    <string name="vacation">Отпуск</string>
+    <string name="sickLeave">Больничный</string>
 </resources>
