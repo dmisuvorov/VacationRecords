@@ -17,4 +17,22 @@ public class ActionEntity {
         this.name = name;
         this.colorHex = colorHex;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getColorHex() {
+        return colorHex;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof ActionEntity) {
+            return (this.id == ((ActionEntity) obj).id);
+        } else return false;
+    }
 }

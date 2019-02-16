@@ -3,11 +3,15 @@ package com.media.dmitry68.vacationrecords.action;
 import com.media.dmitry68.vacationrecords.ApplicationVacation;
 import com.media.dmitry68.vacationrecords.DatabaseVacation;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class ActionFactory {
     private ActionDao actionDao;
@@ -27,21 +31,28 @@ public class ActionFactory {
                 });
     }
 
+    public void deleteActionEntity(final ActionCallback actionCallback, final ActionEntity actionEntity) {
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() {
+                actionDao.delete(actionEntity);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
+                    }
 
-    public List<String> getActionNames(List<ActionEntity> actionEntities) {
-        List<String> actionNames = new ArrayList<>(actionEntities.size());
-        for (ActionEntity entity : actionEntities) {
-            actionNames.add(entity.name);
-        }
-        return actionNames;
-    }
+                    @Override
+                    public void onComplete() {
+                        actionCallback.onDeleteAction(actionEntity);
+                    }
 
-    public List<String> getActionColorHex(List<ActionEntity> actionEntities) {
-        List<String> actionColorHex = new ArrayList<>(actionEntities.size());
-        for (ActionEntity entity : actionEntities) {
-            actionColorHex.add(entity.colorHex);
-        }
-        return actionColorHex;
+                    @Override
+                    public void onError(Throwable e) {
+                        actionCallback.onDataNotAvailable();
+                    }
+                });
     }
 }

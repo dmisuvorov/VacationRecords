@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
     android:minHeight="?attr/actionBarSize"
-    app:titleTextColor="?attr/colorAccent">
+    app:titleTextColor="?attr/colorBackgroundFloating"
+    android:elevation="5dp">
 
 </android.support.v7.widget.Toolbar>

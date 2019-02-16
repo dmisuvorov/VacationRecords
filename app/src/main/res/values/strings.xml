@@ -9,4 +9,5 @@
 
     <string name="vacation">Vacation</string>
     <string name="sickLeave">Sick leave</string>
+    <string name="action_delete">Delete</string>
 </resources>
