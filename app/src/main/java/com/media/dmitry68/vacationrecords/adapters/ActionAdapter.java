@@ -44,6 +44,7 @@ public class ActionAdapter extends ArrayAdapter<ActionEntity> implements BaseVac
         imageColorAction.setBackgroundColor(Color.parseColor(actionEntity.getColorHex()));
         textAction.setText(actionEntity.getName());
 
+        convertView.setBackgroundColor(selectedActionEntities.get(position) ? 0x9934B5E4 : Color.TRANSPARENT);
         return convertView;
     }
 
@@ -57,19 +58,20 @@ public class ActionAdapter extends ArrayAdapter<ActionEntity> implements BaseVac
         selectView(position, !selectedActionEntities.get(position));
     }
 
-    void selectView(int position, boolean value) {
+    public int getSelectedCount() {
+        return selectedActionEntities.size();
+    }
+
+    public SparseBooleanArray getSelectedActionEntities() {
+        return selectedActionEntities;
+    }
+
+    private void selectView(int position, boolean value) {
         if (value) {
             selectedActionEntities.put(position, value);
         } else {
             selectedActionEntities.delete(position);
         }
         notifyDataSetChanged();
-    }
-
-    public int getSelectedCount() {
-        return selectedActionEntities.size();
-    }
-    public SparseBooleanArray getSelectedActionEntities() {
-        return selectedActionEntities;
     }
 }
