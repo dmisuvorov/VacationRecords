@@ -2,6 +2,8 @@ package com.media.dmitry68.vacationrecords.action;
 
 import com.media.dmitry68.vacationrecords.ApplicationVacation;
 import com.media.dmitry68.vacationrecords.DatabaseVacation;
+import com.media.dmitry68.vacationrecords.color.ColorFactory;
+import com.media.dmitry68.vacationrecords.settings.ActionSettingsCallback;
 
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class ActionFactory {
                 });
     }
 
-    public void deleteActionEntity(final ActionCallback actionCallback, final ActionEntity actionEntity) {
+    public void deleteActionEntity(final ActionSettingsCallback actionCallback, final ActionEntity actionEntity) {
         Completable.fromAction(new Action() {
             @Override
             public void run() {
@@ -54,5 +56,33 @@ public class ActionFactory {
                         actionCallback.onDataNotAvailable();
                     }
                 });
+    }
+
+    public void addActionEntity(final ActionSettingsCallback actionCallback, final String actionEntityName) {
+        ColorFactory colorFactory = new ColorFactory();
+        String randomColorHex = colorFactory.createRandomColorHex();
+        final ActionEntity newActionEntity = new ActionEntity(actionEntityName, randomColorHex);
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() {
+                actionDao.insert(newActionEntity);
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                actionCallback.onAddAction(newActionEntity);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                actionCallback.onDataNotAvailable();
+            }
+        });
     }
 }

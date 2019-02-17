@@ -68,7 +68,7 @@ public class ActionAdapter extends ArrayAdapter<ActionEntity> implements BaseVac
 
     private void selectView(int position, boolean value) {
         if (value) {
-            selectedActionEntities.put(position, value);
+            selectedActionEntities.put(position, true);
         } else {
             selectedActionEntities.delete(position);
         }

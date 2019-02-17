@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">VacationRecords</string>
-    <string name="btn_text_ok_calendar_picker">OK</string>
+    <string name="btn_text_ok">OK</string>
+    <string name="btn_text_cancel">Cancel</string>
     <string name="btn_text_pick_date">Pick date</string>
     <string name="btn_text_pick_action">Pick action</string>
     <string name="btn_text_reset">Reset</string>
@@ -10,4 +11,9 @@
     <string name="vacation">Vacation</string>
     <string name="sickLeave">Sick leave</string>
     <string name="action_delete">Delete</string>
+    <string name="action_add">Add</string>
+    <string name="action">Action</string>
+    <string name="title_dialog_new_action">Add new action</string>
+
+    
 </resources>

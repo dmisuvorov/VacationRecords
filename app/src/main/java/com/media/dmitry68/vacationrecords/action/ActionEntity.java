@@ -5,25 +5,40 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity
 public class ActionEntity {
-    @PrimaryKey
-    public long id;
+    @PrimaryKey(autoGenerate = true)
+    private Integer id;
 
-    String name;
+    private String name;
 
-    String colorHex;
+    private String colorHex;
 
-    public ActionEntity(long id, String name, String colorHex) {
-        this.id = id;
+    public ActionEntity(String name, String colorHex) {
         this.name = name;
         this.colorHex = colorHex;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getColorHex() {
         return colorHex;
+    }
+
+    public void setColorHex(String colorHex) {
+        this.colorHex = colorHex;
     }
 
     @Override
@@ -32,7 +47,7 @@ public class ActionEntity {
             return false;
         }
         if (obj instanceof ActionEntity) {
-            return (this.id == ((ActionEntity) obj).id);
+            return (this.id.equals(((ActionEntity) obj).id));
         } else return false;
     }
 }

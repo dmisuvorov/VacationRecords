@@ -12,8 +12,8 @@ public class ActionEntityPopulateData {
 
     public ActionEntity[] populateData() {
         return new ActionEntity[] {
-                new ActionEntity(1, context.getResources().getString(R.string.vacation), "#00FF00"),
-                new ActionEntity(2, context.getResources().getString(R.string.sickLeave), "#FF0000")
+                new ActionEntity(context.getResources().getString(R.string.vacation), "#00FF00"),
+                new ActionEntity(context.getResources().getString(R.string.sickLeave), "#FF0000")
         };
     }
 }

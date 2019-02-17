@@ -3,15 +3,13 @@ package com.media.dmitry68.vacationrecords.settings;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.Toolbar;
 
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,32 +17,34 @@ import android.widget.ListView;
 
 import com.media.dmitry68.vacationrecords.R;
 import com.media.dmitry68.vacationrecords.adapters.ActionAdapter;
-import com.media.dmitry68.vacationrecords.action.ActionCallback;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
 import com.media.dmitry68.vacationrecords.action.ActionFactory;
+import com.media.dmitry68.vacationrecords.ui.BasePickFragment;
+import com.media.dmitry68.vacationrecords.ui.DialogBuilderAddAction;
+import com.media.dmitry68.vacationrecords.ui.DialogBuilderCallback;
 import com.media.dmitry68.vacationrecords.ui.ToolbarActionMode;
 import com.media.dmitry68.vacationrecords.ui.ToolbarActionModeCallback;
 
 import java.util.List;
 
-
-public class SettingsActionFragment extends Fragment implements ActionCallback, ToolbarActionModeCallback {
+public class SettingsActionFragment extends BasePickFragment implements ActionSettingsCallback, ToolbarActionModeCallback, DialogBuilderCallback {
     public static final String SETTINGS_ACTION_FRAGMENT_TAG = "settings_action_fragment_tag";
-    private AppCompatActivity parentActivity;
-    private View rootView;
     private ActionMode actionMode;
     private ActionAdapter actionAdapter;
     private ListView actionListView;
-    private FragmentManager fragmentManager;
     private ActionFactory actionFactory = new ActionFactory();
     private List<ActionEntity> actionEntities;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_action_settings, container, false);
-        fragmentManager = getFragmentManager();
-        parentActivity = (AppCompatActivity) getActivity();
         initToolbar();
         actionFactory.getActionEntities(this);
         return rootView;
@@ -63,6 +63,12 @@ public class SettingsActionFragment extends Fragment implements ActionCallback, 
     }
 
     @Override
+    public void onAddAction(ActionEntity actionEntity) {
+        actionEntities.add(actionEntity);
+        actionAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onDataNotAvailable() {
         throw new IllegalStateException("Error: Data not available");
     }
@@ -73,6 +79,7 @@ public class SettingsActionFragment extends Fragment implements ActionCallback, 
         for (int i = (selected.size() - 1); i >= 0; i--) {
             actionFactory.deleteActionEntity(this, actionEntities.get(selected.keyAt(i)));
         }
+        actionMode.finish();
     }
 
     @Override
@@ -82,23 +89,25 @@ public class SettingsActionFragment extends Fragment implements ActionCallback, 
         }
     }
 
-    private void initToolbar() {
-        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
-        if (parentActivity != null) {
-            parentActivity.setSupportActionBar(toolbar);
-            ActionBar actionBar = parentActivity.getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (fragmentManager != null) {
-                            fragmentManager.popBackStack();
-                        }
-                    }
-                });
-            }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        parentActivity.getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_action_add:
+                DialogBuilderAddAction dialogBuilderAddAction = new DialogBuilderAddAction(getContext(), this);
+                dialogBuilderAddAction.showDialog();
         }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDialogSetPositiveButton(String actionName) {
+        actionFactory.addActionEntity(this, actionName);
     }
 
     private void initList() {
@@ -112,7 +121,9 @@ public class SettingsActionFragment extends Fragment implements ActionCallback, 
         actionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                if (actionMode != null) {
+                    onListItemSelect(position);
+                }
             }
         });
         actionListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

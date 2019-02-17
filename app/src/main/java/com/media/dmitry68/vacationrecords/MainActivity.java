@@ -1,12 +1,14 @@
 package com.media.dmitry68.vacationrecords;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.TextView;
 
+import com.media.dmitry68.vacationrecords.action.ActionPickFragment;
 import com.media.dmitry68.vacationrecords.calendar.CalendarFactory;
 import com.media.dmitry68.vacationrecords.calendar.CalendarFragment;
 import com.media.dmitry68.vacationrecords.calendar.OnFragmentCalendarInteractionListener;
@@ -18,22 +20,37 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
     private static final int REQUEST_SETTINGS = 200;
     private CalendarFactory calendarFactory = new CalendarFactory();
     private TextView txtPickDate;
+    private TextView txtPickAction;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AppCompatButton btnPickDate = findViewById(R.id.btn_pick_date);
+        AppCompatButton btnPickAction = findViewById(R.id.btn_pick_action);
         AppCompatButton btnReset = findViewById(R.id.btn_reset);
         AppCompatButton btnSettings = findViewById(R.id.btn_settings);
         txtPickDate = findViewById(R.id.txt_pick_date);
+        txtPickAction = findViewById(R.id.txt_pick_action);
+        fragmentManager = getSupportFragmentManager();
+
         btnPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction()
+                fragmentManager.beginTransaction()
                         .add(android.R.id.content, new CalendarFragment())
                         .addToBackStack(CalendarFragment.CALENDAR_FRAGMENT_TAG)
                         .commit();
+            }
+        });
+        btnPickAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager.beginTransaction()
+                        .add(android.R.id.content, new ActionPickFragment())
+                        .addToBackStack(ActionPickFragment.ACTION_PICK_FRAGMENT_TAG)
+                        .commit(); //https://medium.com/@geekanamika/material-design-dialogs-in-android-34ac9e401e95
             }
         });
         btnSettings.setOnClickListener(new View.OnClickListener() {
