@@ -16,11 +16,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.media.dmitry68.vacationrecords.R;
-import com.media.dmitry68.vacationrecords.adapters.ActionAdapter;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
 import com.media.dmitry68.vacationrecords.action.ActionFactory;
+import com.media.dmitry68.vacationrecords.adapters.ActionSettingsAdapter;
 import com.media.dmitry68.vacationrecords.ui.BasePickFragment;
-import com.media.dmitry68.vacationrecords.ui.DialogBuilderAddAction;
+import com.media.dmitry68.vacationrecords.action.DialogBuilderAddAction;
 import com.media.dmitry68.vacationrecords.ui.DialogBuilderCallback;
 import com.media.dmitry68.vacationrecords.ui.ToolbarActionMode;
 import com.media.dmitry68.vacationrecords.ui.ToolbarActionModeCallback;
@@ -30,7 +30,7 @@ import java.util.List;
 public class SettingsActionFragment extends BasePickFragment implements ActionSettingsCallback, ToolbarActionModeCallback, DialogBuilderCallback {
     public static final String SETTINGS_ACTION_FRAGMENT_TAG = "settings_action_fragment_tag";
     private ActionMode actionMode;
-    private ActionAdapter actionAdapter;
+    private ActionSettingsAdapter actionAdapter;
     private ListView actionListView;
     private ActionFactory actionFactory = new ActionFactory();
     private List<ActionEntity> actionEntities;
@@ -111,7 +111,7 @@ public class SettingsActionFragment extends BasePickFragment implements ActionSe
     }
 
     private void initList() {
-        actionAdapter = new ActionAdapter(getContext(), actionEntities);
+        actionAdapter = new ActionSettingsAdapter(getContext(), actionEntities);
         actionListView = rootView.findViewById(R.id.action_list_view);
         actionListView.setAdapter(actionAdapter);
         implementListViewClickListener();

@@ -1,4 +1,4 @@
-package com.media.dmitry68.vacationrecords.ui;
+package com.media.dmitry68.vacationrecords.action;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.media.dmitry68.vacationrecords.R;
+import com.media.dmitry68.vacationrecords.ui.DialogBuilderCallback;
 
 public class DialogBuilderAddAction {
     private Context context;
