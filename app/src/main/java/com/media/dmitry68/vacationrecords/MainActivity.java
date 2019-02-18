@@ -8,25 +8,28 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.TextView;
 
-import com.media.dmitry68.vacationrecords.action.ActionPickFragment;
+import com.media.dmitry68.vacationrecords.action.DialogBuilderConfirmationAction;
 import com.media.dmitry68.vacationrecords.calendar.CalendarFactory;
 import com.media.dmitry68.vacationrecords.calendar.CalendarFragment;
 import com.media.dmitry68.vacationrecords.calendar.OnFragmentCalendarInteractionListener;
 import com.media.dmitry68.vacationrecords.settings.SettingsActivity;
+import com.media.dmitry68.vacationrecords.ui.DialogBuilderCallback;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements OnFragmentCalendarInteractionListener {
+public class MainActivity extends AppCompatActivity implements OnFragmentCalendarInteractionListener, DialogBuilderCallback {
     private static final int REQUEST_SETTINGS = 200;
     private CalendarFactory calendarFactory = new CalendarFactory();
     private TextView txtPickDate;
     private TextView txtPickAction;
     private FragmentManager fragmentManager;
+    private AppCompatActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainActivity = this;
         AppCompatButton btnPickDate = findViewById(R.id.btn_pick_date);
         AppCompatButton btnPickAction = findViewById(R.id.btn_pick_action);
         AppCompatButton btnReset = findViewById(R.id.btn_reset);
@@ -47,10 +50,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
         btnPickAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentManager.beginTransaction()
-                        .add(android.R.id.content, new ActionPickFragment())
-                        .addToBackStack(ActionPickFragment.ACTION_PICK_FRAGMENT_TAG)
-                        .commit(); //https://medium.com/@geekanamika/material-design-dialogs-in-android-34ac9e401e95
+                DialogBuilderConfirmationAction dialog = new DialogBuilderConfirmationAction(mainActivity);
+                dialog.showDialog();
             }
         });
         btnSettings.setOnClickListener(new View.OnClickListener() {
@@ -75,5 +76,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
         calendarFactory.setEndDateCalendar(endDate);
         String txtPickDateString = calendarFactory.getStartDateString() + "-" + calendarFactory.getEndDateString();
         txtPickDate.setText(txtPickDateString);
+    }
+
+    @Override
+    public void onDialogSetPositiveButton(String actionName) {
+        txtPickAction.setText(actionName);
     }
 }

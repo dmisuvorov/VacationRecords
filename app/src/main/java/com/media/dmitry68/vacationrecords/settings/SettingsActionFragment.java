@@ -18,7 +18,7 @@ import android.widget.ListView;
 import com.media.dmitry68.vacationrecords.R;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
 import com.media.dmitry68.vacationrecords.action.ActionFactory;
-import com.media.dmitry68.vacationrecords.adapters.ActionSettingsAdapter;
+import com.media.dmitry68.vacationrecords.adapters.ActionListAdapter;
 import com.media.dmitry68.vacationrecords.ui.BasePickFragment;
 import com.media.dmitry68.vacationrecords.action.DialogBuilderAddAction;
 import com.media.dmitry68.vacationrecords.ui.DialogBuilderCallback;
@@ -30,7 +30,7 @@ import java.util.List;
 public class SettingsActionFragment extends BasePickFragment implements ActionSettingsCallback, ToolbarActionModeCallback, DialogBuilderCallback {
     public static final String SETTINGS_ACTION_FRAGMENT_TAG = "settings_action_fragment_tag";
     private ActionMode actionMode;
-    private ActionSettingsAdapter actionAdapter;
+    private ActionListAdapter actionAdapter;
     private ListView actionListView;
     private ActionFactory actionFactory = new ActionFactory();
     private List<ActionEntity> actionEntities;
@@ -111,7 +111,7 @@ public class SettingsActionFragment extends BasePickFragment implements ActionSe
     }
 
     private void initList() {
-        actionAdapter = new ActionSettingsAdapter(getContext(), actionEntities);
+        actionAdapter = new ActionListAdapter(getContext(), actionEntities);
         actionListView = rootView.findViewById(R.id.action_list_view);
         actionListView.setAdapter(actionAdapter);
         implementListViewClickListener();

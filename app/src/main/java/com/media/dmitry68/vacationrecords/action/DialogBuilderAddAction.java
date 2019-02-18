@@ -2,6 +2,7 @@ package com.media.dmitry68.vacationrecords.action;
 
 import android.content.Context;
 import android.content.DialogInterface;
+
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ public class DialogBuilderAddAction {
     }
 
     public void showDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.dialog_add_action, null);
         dialogBuilder.setView(dialogView);
@@ -39,7 +40,7 @@ public class DialogBuilderAddAction {
         dialogBuilder.setNegativeButton(context.getString(R.string.btn_text_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                dialog.dismiss();
             }
         });
         AlertDialog b = dialogBuilder.create();

@@ -1,18 +1,23 @@
 package com.media.dmitry68.vacationrecords.adapters;
 
 import android.view.View;
+import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.media.dmitry68.vacationrecords.R;
 
 class ActionViewHolder {
     private TextView actionTextView;
     private ImageView colorImageView;
+    private CheckedTextView checkedTextView;
 
-    ActionViewHolder(View view) {
-        actionTextView = view.findViewById(R.id.text_action);
-        colorImageView = view.findViewById(R.id.color_image_action);
+    ActionViewHolder(View view, int textResource, int colorImageResource) {
+        actionTextView = view.findViewById(textResource);
+        colorImageView = view.findViewById(colorImageResource);
+    }
+
+    ActionViewHolder(View view, int textCheckedResource) {
+        checkedTextView = view.findViewById(textCheckedResource);
     }
 
     TextView getActionTextView() {
@@ -21,5 +26,9 @@ class ActionViewHolder {
 
     ImageView getColorImageView() {
         return colorImageView;
+    }
+
+    CheckedTextView getCheckedTextView() {
+        return checkedTextView;
     }
 }

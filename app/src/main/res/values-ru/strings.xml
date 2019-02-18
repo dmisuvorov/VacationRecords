@@ -13,5 +13,6 @@
     <string name="sickLeave">Больничный</string>
     <string name="action_delete">Удалить</string>
     <string name="action_add">Добавить</string>
-    <string name="title_dialog_new_action">Добавить новое действие</string>
+    <string name="title_dialog_new_action">Добавьте новое действие</string>
+    <string name="title_dialog_pick_action">Выберете действие</string>
 </resources>

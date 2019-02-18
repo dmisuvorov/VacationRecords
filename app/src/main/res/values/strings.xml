@@ -14,6 +14,6 @@
     <string name="action_add">Add</string>
     <string name="action">Action</string>
     <string name="title_dialog_new_action">Add new action</string>
-
+    <string name="title_dialog_pick_action">Pick action</string>
     
 </resources>
