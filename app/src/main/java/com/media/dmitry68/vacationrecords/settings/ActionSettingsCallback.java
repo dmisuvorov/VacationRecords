@@ -8,6 +8,7 @@ public interface ActionSettingsCallback extends ActionCallback {
 
     void onAddAction(ActionEntity actionEntity);
 
-    void onDataNotAvailable();
+    void onUpdateAction(ActionEntity actionEntity);
 
+    void onDataNotAvailable();
 }

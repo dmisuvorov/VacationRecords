@@ -85,4 +85,31 @@ public class ActionFactory {
             }
         });
     }
+
+    public void updateActionEntityColor(final ActionSettingsCallback actionCallback, final ActionEntity actionEntity, final String newColorHex) {
+        actionEntity.setColorHex(newColorHex);
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() {
+                actionDao.update(actionEntity);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        actionCallback.onUpdateAction(actionEntity);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        actionCallback.onDataNotAvailable();
+                    }
+                });
+    }
 }

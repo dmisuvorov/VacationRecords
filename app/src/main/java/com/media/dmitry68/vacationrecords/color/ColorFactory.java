@@ -10,6 +10,10 @@ public class ColorFactory {
     public String createRandomColorHex() {
         Random random = new Random();
         int nextInt = random.nextInt(0xffffff + 1);
-        return String.format("#%06x", nextInt);
+        return getColorHexFromInt(nextInt);
+    }
+
+    String getColorHexFromInt(int color) {
+        return String.format("#%06x", color);
     }
 }

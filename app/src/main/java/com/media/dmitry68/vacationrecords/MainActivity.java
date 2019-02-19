@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
                 dialog.showDialog();
             }
         });
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetView();
+            }
+        });
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,5 +87,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
     @Override
     public void onDialogSetPositiveButton(String actionName) {
         txtPickAction.setText(actionName);
+    }
+
+    private void resetView() {
+        txtPickDate.setText("");
+        txtPickAction.setText("");
     }
 }

@@ -37,7 +37,7 @@ public class ActionEntity {
         return colorHex;
     }
 
-    public void setColorHex(String colorHex) {
+    void setColorHex(String colorHex) {
         this.colorHex = colorHex;
     }
 

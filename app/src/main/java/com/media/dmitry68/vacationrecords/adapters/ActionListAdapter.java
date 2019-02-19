@@ -12,20 +12,27 @@ import android.widget.TextView;
 
 import com.media.dmitry68.vacationrecords.R;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
+import com.media.dmitry68.vacationrecords.color.ColorCallback;
+import com.media.dmitry68.vacationrecords.color.ColorPickPopup;
 
 import java.util.List;
 
-public class ActionListAdapter extends ActionAdapter implements BaseVacationAdapter {
+public class ActionListAdapter extends ActionAdapter implements BaseVacationAdapter, ColorCallback {
     private SparseBooleanArray selectedActionEntities;
+    private ActionAdapterCallback actionAdapterCallback;
+    private ColorPickPopup colorPickPopup;
+    private int updatePosition;
 
-    public ActionListAdapter(Context context, List<ActionEntity> actionEntities) {
+    public ActionListAdapter(Context context, List<ActionEntity> actionEntities, ActionAdapterCallback actionAdapterCallback) {
         super(context, actionEntities);
         selectedActionEntities = new SparseBooleanArray();
+        this.actionAdapterCallback = actionAdapterCallback;
+        colorPickPopup = new ColorPickPopup(context, this);
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         ActionViewHolder actionViewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context)
@@ -35,12 +42,20 @@ public class ActionListAdapter extends ActionAdapter implements BaseVacationAdap
         } else {
             actionViewHolder = (ActionViewHolder) convertView.getTag();
         }
-        ActionEntity actionEntity = actionEntities.get(position);
+        final ActionEntity actionEntity = actionEntities.get(position);
 
         ImageView imageColorAction = actionViewHolder.getColorImageView();
         TextView textAction = actionViewHolder.getActionTextView();
 
         imageColorAction.setBackgroundColor(Color.parseColor(actionEntity.getColorHex()));
+        imageColorAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatePosition = position;
+                colorPickPopup.setColorHex(actionEntity.getColorHex());
+                colorPickPopup.build();
+            }
+        });
         textAction.setText(actionEntity.getName());
 
         convertView.setBackgroundColor(selectedActionEntities.get(position) ? 0x9934B5E4 : Color.TRANSPARENT);
@@ -52,6 +67,11 @@ public class ActionListAdapter extends ActionAdapter implements BaseVacationAdap
     public void removeSelection() {
         selectedActionEntities = new SparseBooleanArray();
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onColorPick(String colorHex) {
+        actionAdapterCallback.onUpdateItemColor(actionEntities.get(updatePosition), colorHex);
     }
 
     public SparseBooleanArray getSelectedActionEntities() {

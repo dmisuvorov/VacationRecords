@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.media.dmitry68.vacationrecords.R;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
 import com.media.dmitry68.vacationrecords.action.ActionFactory;
+import com.media.dmitry68.vacationrecords.adapters.ActionAdapterCallback;
 import com.media.dmitry68.vacationrecords.adapters.ActionListAdapter;
 import com.media.dmitry68.vacationrecords.ui.BasePickFragment;
 import com.media.dmitry68.vacationrecords.action.DialogBuilderAddAction;
@@ -27,7 +28,7 @@ import com.media.dmitry68.vacationrecords.ui.ToolbarActionModeCallback;
 
 import java.util.List;
 
-public class SettingsActionFragment extends BasePickFragment implements ActionSettingsCallback, ToolbarActionModeCallback, DialogBuilderCallback {
+public class SettingsActionFragment extends BasePickFragment implements ActionSettingsCallback, ToolbarActionModeCallback, DialogBuilderCallback, ActionAdapterCallback {
     public static final String SETTINGS_ACTION_FRAGMENT_TAG = "settings_action_fragment_tag";
     private ActionMode actionMode;
     private ActionListAdapter actionAdapter;
@@ -66,6 +67,11 @@ public class SettingsActionFragment extends BasePickFragment implements ActionSe
     public void onAddAction(ActionEntity actionEntity) {
         actionEntities.add(actionEntity);
         actionAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onUpdateAction(ActionEntity actionEntity) {
+        actionEntities.set(actionEntities.indexOf(actionEntity), actionEntity);
     }
 
     @Override
@@ -110,8 +116,13 @@ public class SettingsActionFragment extends BasePickFragment implements ActionSe
         actionFactory.addActionEntity(this, actionName);
     }
 
+    @Override
+    public void onUpdateItemColor(ActionEntity updateActionEntity, String newColorHex) {
+        actionFactory.updateActionEntityColor(this, updateActionEntity, newColorHex);
+    }
+
     private void initList() {
-        actionAdapter = new ActionListAdapter(getContext(), actionEntities);
+        actionAdapter = new ActionListAdapter(getContext(), actionEntities, this);
         actionListView = rootView.findViewById(R.id.action_list_view);
         actionListView.setAdapter(actionAdapter);
         implementListViewClickListener();

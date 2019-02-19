@@ -10,10 +10,11 @@ import android.support.annotation.NonNull;
 import com.media.dmitry68.vacationrecords.action.ActionDao;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
 import com.media.dmitry68.vacationrecords.action.ActionEntityPopulateData;
+import com.media.dmitry68.vacationrecords.employer.EmployerEntity;
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {ActionEntity.class}, version = 1)
+@Database(entities = {ActionEntity.class, EmployerEntity.class}, version = 1)
 public abstract class DatabaseVacation extends RoomDatabase {
     private static DatabaseVacation INSTANCE;
     public abstract ActionDao actionDao();
