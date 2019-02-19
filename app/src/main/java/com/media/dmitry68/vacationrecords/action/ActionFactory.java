@@ -1,7 +1,6 @@
 package com.media.dmitry68.vacationrecords.action;
 
-import com.media.dmitry68.vacationrecords.ApplicationVacation;
-import com.media.dmitry68.vacationrecords.DatabaseVacation;
+import com.media.dmitry68.vacationrecords.ItemFactory;
 import com.media.dmitry68.vacationrecords.color.ColorFactory;
 import com.media.dmitry68.vacationrecords.settings.ActionSettingsCallback;
 
@@ -15,11 +14,11 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class ActionFactory {
+public class ActionFactory extends ItemFactory {
     private ActionDao actionDao;
 
     public ActionFactory() {
-        DatabaseVacation databaseVacation = ApplicationVacation.getInstance().getDatabaseVacation();
+        super();
         actionDao = databaseVacation.actionDao();
     }
 
@@ -27,7 +26,7 @@ public class ActionFactory {
         actionDao.getAll().observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<ActionEntity>>() {
                     @Override
-                    public void accept(List<ActionEntity> actionEntities) throws Exception {
+                    public void accept(List<ActionEntity> actionEntities) {
                         actionCallback.onActionLoaded(actionEntities);
                     }
                 });

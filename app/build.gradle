@@ -23,8 +23,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.github.duanhong169:colorpicker:1.1.6'
-
+    implementation 'com.github.ceryle:FitGridView:1.0.5'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:preference-v7:28.0.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'

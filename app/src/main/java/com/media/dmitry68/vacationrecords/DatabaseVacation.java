@@ -10,7 +10,9 @@ import android.support.annotation.NonNull;
 import com.media.dmitry68.vacationrecords.action.ActionDao;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
 import com.media.dmitry68.vacationrecords.action.ActionEntityPopulateData;
+import com.media.dmitry68.vacationrecords.employer.EmployerDao;
 import com.media.dmitry68.vacationrecords.employer.EmployerEntity;
+import com.media.dmitry68.vacationrecords.employer.EmployerEntityPopulateData;
 
 import java.util.concurrent.Executors;
 
@@ -18,6 +20,7 @@ import java.util.concurrent.Executors;
 public abstract class DatabaseVacation extends RoomDatabase {
     private static DatabaseVacation INSTANCE;
     public abstract ActionDao actionDao();
+    public abstract EmployerDao employerDao();
 
     synchronized static DatabaseVacation getInstance(Context context) {
         if (INSTANCE == null) {
@@ -38,7 +41,9 @@ public abstract class DatabaseVacation extends RoomDatabase {
                             @Override
                             public void run() {
                                 ActionEntityPopulateData actionData = new ActionEntityPopulateData(context);
+                                EmployerEntityPopulateData employerData = new EmployerEntityPopulateData(context);
                                 getInstance(context).actionDao().insertAll(actionData.populateData());
+                                getInstance(context).employerDao().insertAll(employerData.populateData());
                             }
                         });
                     }

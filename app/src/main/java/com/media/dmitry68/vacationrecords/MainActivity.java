@@ -9,21 +9,28 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.media.dmitry68.vacationrecords.action.DialogBuilderConfirmationAction;
+import com.media.dmitry68.vacationrecords.adapters.EmployerGridAdapter;
 import com.media.dmitry68.vacationrecords.calendar.CalendarFactory;
 import com.media.dmitry68.vacationrecords.calendar.CalendarFragment;
 import com.media.dmitry68.vacationrecords.calendar.OnFragmentCalendarInteractionListener;
+import com.media.dmitry68.vacationrecords.employer.EmployerCallback;
+import com.media.dmitry68.vacationrecords.employer.EmployerEntity;
+import com.media.dmitry68.vacationrecords.employer.EmployerFactory;
 import com.media.dmitry68.vacationrecords.settings.SettingsActivity;
 import com.media.dmitry68.vacationrecords.ui.DialogBuilderCallback;
 
 import java.util.Calendar;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnFragmentCalendarInteractionListener, DialogBuilderCallback {
+public class MainActivity extends AppCompatActivity implements OnFragmentCalendarInteractionListener, DialogBuilderCallback, EmployerCallback {
     private static final int REQUEST_SETTINGS = 200;
     private CalendarFactory calendarFactory = new CalendarFactory();
     private TextView txtPickDate;
     private TextView txtPickAction;
     private FragmentManager fragmentManager;
     private AppCompatActivity mainActivity;
+    private EmployerGridAdapter employerGridAdapter;
+    private EmployerFactory employerFactory = new EmployerFactory();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +74,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
                 startActivityForResult(settingsIntent, REQUEST_SETTINGS);
             }
         });
+
+        employerFactory.getEmployerEntities(this);
     }
 
+    @Override
+    public void onEmployerLoaded(List<EmployerEntity> employerEntities) {
+        this.employerGridAdapter = new EmployerGridAdapter(getApplicationContext(), employerEntities);
+        initGridView();
+    }
 
     @Override
     public void onStartDatePick(Calendar startDate) {
@@ -87,6 +101,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
     @Override
     public void onDialogSetPositiveButton(String actionName) {
         txtPickAction.setText(actionName);
+    }
+
+    private void initGridView() {
+
     }
 
     private void resetView() {
