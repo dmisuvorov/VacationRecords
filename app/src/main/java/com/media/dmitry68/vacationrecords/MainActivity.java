@@ -22,6 +22,8 @@ import com.media.dmitry68.vacationrecords.ui.DialogBuilderCallback;
 import java.util.Calendar;
 import java.util.List;
 
+import co.ceryle.fitgridview.FitGridView;
+
 public class MainActivity extends AppCompatActivity implements OnFragmentCalendarInteractionListener, DialogBuilderCallback, EmployerCallback {
     private static final int REQUEST_SETTINGS = 200;
     private CalendarFactory calendarFactory = new CalendarFactory();
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
     private TextView txtPickAction;
     private FragmentManager fragmentManager;
     private AppCompatActivity mainActivity;
-    private EmployerGridAdapter employerGridAdapter;
+    private EmployerGridAdapter fitGridAdapter;
     private EmployerFactory employerFactory = new EmployerFactory();
 
     @Override
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
 
     @Override
     public void onEmployerLoaded(List<EmployerEntity> employerEntities) {
-        this.employerGridAdapter = new EmployerGridAdapter(getApplicationContext(), employerEntities);
+        this.fitGridAdapter = new EmployerGridAdapter(getApplicationContext(), employerEntities);
         initGridView();
     }
 
@@ -104,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
     }
 
     private void initGridView() {
-
+        FitGridView fitGridView = findViewById(R.id.gridView);
+        fitGridView.setFitGridAdapter(fitGridAdapter);
     }
 
     private void resetView() {

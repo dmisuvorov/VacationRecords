@@ -40,10 +40,11 @@ public abstract class DatabaseVacation extends RoomDatabase {
                         Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                             @Override
                             public void run() {
+                                final DatabaseVacation databaseVacation = getInstance(context);
                                 ActionEntityPopulateData actionData = new ActionEntityPopulateData(context);
                                 EmployerEntityPopulateData employerData = new EmployerEntityPopulateData(context);
-                                getInstance(context).actionDao().insertAll(actionData.populateData());
-                                getInstance(context).employerDao().insertAll(employerData.populateData());
+                                databaseVacation.actionDao().insertAll(actionData.populateData());
+                                databaseVacation.employerDao().insertAll(employerData.populateData());
                             }
                         });
                     }
