@@ -17,8 +17,9 @@ import co.ceryle.fitgridview.FitGridAdapter;
 
 public class EmployerGridAdapter extends FitGridAdapter  {
     private List<EmployerEntity> employerEntities;
-    private TreeMap<Character, ArrayList<String>> mapFirstCharToName = new TreeMap<>();
-    private List<Character> listOfFirstCharOfNameOfEntities;
+    private TreeMap<String, ArrayList<String>> mapFirstCharToName = new TreeMap<>();
+    private List<String> listOfFirstCharOfNameOfEntities;
+    private List<String> listOfTextButton = new ArrayList<>();
     private boolean modeOfChar = true;
 
     public EmployerGridAdapter(Context context, List<EmployerEntity> employerEntities) {
@@ -26,28 +27,32 @@ public class EmployerGridAdapter extends FitGridAdapter  {
         this.employerEntities = employerEntities;
         makeFirstCharToUpperCase();
         listOfFirstCharOfNameOfEntities = getListFirstCharOfNameEmployers();
+        listOfTextButton.addAll(listOfFirstCharOfNameOfEntities);
     }
 
     @Override
     public void onBindView(int position, View view) {
-        Button gridButton = view.findViewById(R.id.gridButton);
-        if (modeOfChar)
-            gridButton.setText(listOfFirstCharOfNameOfEntities.get(position));
-        else
-            gridButton.setText(employerEntities.get(position).getName());
-
+        final Button gridButton = view.findViewById(R.id.gridButton);
+        gridButton.setText(listOfTextButton.get(position));
         gridButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                listOfTextButton.clear();
+                if (modeOfChar) {
+                    String firstCharOfEmployer = gridButton.getText().toString();
+                    listOfTextButton.addAll(Objects.requireNonNull(mapFirstCharToName.get(firstCharOfEmployer)));
+                } else {
+                    listOfTextButton.addAll(listOfFirstCharOfNameOfEntities);
+                }
                 modeOfChar = !modeOfChar;
                 notifyDataSetChanged();
             }
         });
     }
 
-    private List<Character> getListFirstCharOfNameEmployers () {
+    private List<String> getListFirstCharOfNameEmployers () {
         for (EmployerEntity employerEntity : employerEntities) {
-            Character firstChar = employerEntity.getName().charAt(0);
+            String firstChar = String.valueOf(employerEntity.getName().charAt(0));
             if (mapFirstCharToName.get(firstChar) == null) {
                 mapFirstCharToName.put(firstChar, new ArrayList<>(Collections.singleton(employerEntity.getName())));
             } else {
