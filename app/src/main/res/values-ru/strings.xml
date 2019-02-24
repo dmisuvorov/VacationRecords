@@ -15,4 +15,5 @@
     <string name="action_add">Добавить</string>
     <string name="title_dialog_new_action">Добавьте новое действие</string>
     <string name="title_dialog_pick_action">Выберете действие</string>
+    <string name="employers">Работники</string>
 </resources>

@@ -13,76 +13,73 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="100dp"
+            android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_margin="10dp">
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_pick_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/card_element_margin"
+                    android:layout_marginEnd="@dimen/card_element_margin"
                     android:text="@string/btn_text_pick_date" />
-
-                <TextView
-                    android:id="@+id/txt_pick_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/btn_pick_date"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@android:color/black" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp">
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_pick_action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="@dimen/card_element_margin"
+                    android:layout_toEndOf="@+id/btn_pick_date"
                     android:text="@string/btn_text_pick_action" />
-
-                <TextView
-                    android:id="@+id/txt_pick_action"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/btn_pick_action"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@android:color/black" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp">
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_reset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="@dimen/card_element_margin"
+                    android:layout_toEndOf="@+id/btn_pick_action"
                     android:text="@string/btn_text_reset" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp">
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="@dimen/card_element_margin"
+                    android:layout_toEndOf="@+id/btn_reset"
                     android:text="@string/btn_text_settings" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txt_pick_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_marginStart="@dimen/card_element_margin"
+                    android:layout_marginEnd="@dimen/card_element_margin" />
+
+                <TextView
+                    android:id="@+id/txt_pick_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_marginEnd="@dimen/card_element_margin"
+                    android:layout_toEndOf="@+id/txt_pick_date"/>
+
+                <TextView
+                    android:id="@+id/txt_pick_employer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_toEndOf="@+id/txt_pick_action"/>
             </RelativeLayout>
 
         </LinearLayout>
@@ -97,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:listSelector="@android:color/transparent"
-                app:column="4"
+                app:column="5"
                 app:row="4">
 
             </co.ceryle.fitgridview.FitGridView>

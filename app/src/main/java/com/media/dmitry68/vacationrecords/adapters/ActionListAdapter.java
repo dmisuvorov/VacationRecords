@@ -14,18 +14,19 @@ import com.media.dmitry68.vacationrecords.R;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
 import com.media.dmitry68.vacationrecords.color.ColorCallback;
 import com.media.dmitry68.vacationrecords.color.ColorPickPopup;
+import com.media.dmitry68.vacationrecords.ui.SelectorForListOfEntities;
 
 import java.util.List;
 
 public class ActionListAdapter extends ActionAdapter implements BaseVacationAdapter, ColorCallback {
-    private SparseBooleanArray selectedActionEntities;
+    private SelectorForListOfEntities selectorOfActionEntities;
     private ActionAdapterCallback actionAdapterCallback;
     private ColorPickPopup colorPickPopup;
     private int updatePosition;
 
     public ActionListAdapter(Context context, List<ActionEntity> actionEntities, ActionAdapterCallback actionAdapterCallback) {
         super(context, actionEntities);
-        selectedActionEntities = new SparseBooleanArray();
+        selectorOfActionEntities = new SelectorForListOfEntities();
         this.actionAdapterCallback = actionAdapterCallback;
         colorPickPopup = new ColorPickPopup(context, this);
     }
@@ -58,15 +59,15 @@ public class ActionListAdapter extends ActionAdapter implements BaseVacationAdap
         });
         textAction.setText(actionEntity.getName());
 
-        convertView.setBackgroundColor(selectedActionEntities.get(position) ? 0x9934B5E4 : Color.TRANSPARENT);
+        convertView.setBackgroundColor(selectorOfActionEntities.getSelectedPosition(position) ? 0x9934B5E4 : Color.TRANSPARENT);
 
         return convertView;
     }
 
     @Override
     public void removeSelection() {
-        selectedActionEntities = new SparseBooleanArray();
-        notifyDataSetChanged();
+        selectorOfActionEntities.updateSelectedEntities();
+        updateAdapter();
     }
 
     @Override
@@ -74,24 +75,21 @@ public class ActionListAdapter extends ActionAdapter implements BaseVacationAdap
         actionAdapterCallback.onUpdateItemColor(actionEntities.get(updatePosition), colorHex);
     }
 
+    @Override
+    public void updateAdapter() {
+        notifyDataSetChanged();
+    }
+
     public SparseBooleanArray getSelectedActionEntities() {
-        return selectedActionEntities;
+        return selectorOfActionEntities.getSelectedEntities();
     }
 
     public void toggleSelection(int position) {
-        selectView(position, !selectedActionEntities.get(position));
+        selectorOfActionEntities.toggleSelection(position);
+        notifyDataSetChanged();
     }
 
     public int getSelectedCount() {
-        return selectedActionEntities.size();
-    }
-
-    private void selectView(int position, boolean value) {
-        if (value) {
-            selectedActionEntities.put(position, true);
-        } else {
-            selectedActionEntities.delete(position);
-        }
-        notifyDataSetChanged();
+        return selectorOfActionEntities.getSelectedCount();
     }
 }

@@ -16,6 +16,7 @@ import java.util.TreeMap;
 import co.ceryle.fitgridview.FitGridAdapter;
 
 public class EmployerGridAdapter extends FitGridAdapter  {
+    private EmployerGridAdapterCallback employerGridAdapterCallback;
     private List<EmployerEntity> employerEntities;
     private TreeMap<String, ArrayList<String>> mapFirstCharToName = new TreeMap<>();
     private List<String> listOfFirstCharOfNameOfEntities;
@@ -24,10 +25,20 @@ public class EmployerGridAdapter extends FitGridAdapter  {
 
     public EmployerGridAdapter(Context context, List<EmployerEntity> employerEntities) {
         super(context, R.layout.grid_item);
+        if (context instanceof EmployerGridAdapterCallback) {
+            this.employerGridAdapterCallback = (EmployerGridAdapterCallback) context;
+        } else {
+            throw new ClassCastException (context.toString() + " must implement EmployerGridAdapterCallback");
+        }
         this.employerEntities = employerEntities;
         makeFirstCharToUpperCase();
         listOfFirstCharOfNameOfEntities = getListFirstCharOfNameEmployers();
         listOfTextButton.addAll(listOfFirstCharOfNameOfEntities);
+    }
+
+    @Override
+    public int getCount() {
+        return listOfTextButton.size();
     }
 
     @Override
@@ -37,17 +48,37 @@ public class EmployerGridAdapter extends FitGridAdapter  {
         gridButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listOfTextButton.clear();
+                String textOfGridButton = gridButton.getText().toString();
                 if (modeOfChar) {
-                    String firstCharOfEmployer = gridButton.getText().toString();
-                    listOfTextButton.addAll(Objects.requireNonNull(mapFirstCharToName.get(firstCharOfEmployer)));
+                    onCharClick(textOfGridButton);
                 } else {
-                    listOfTextButton.addAll(listOfFirstCharOfNameOfEntities);
+                    onEmployerClick(textOfGridButton);
                 }
                 modeOfChar = !modeOfChar;
-                notifyDataSetChanged();
             }
         });
+    }
+
+    public void resetAdapter() {
+        listOfTextButton.clear();
+        listOfTextButton.addAll(listOfFirstCharOfNameOfEntities);
+        employerGridAdapterCallback.updateGridAdapter(5, 4);
+    }
+
+    private void onEmployerClick(String employerName) {
+        resetAdapter();
+        EmployerEntity pickEmployer = getEmployerEntityFromName(employerName);
+        if (pickEmployer != null) {
+            employerGridAdapterCallback.onPickEmployer(pickEmployer);
+        } else {
+            throw new IllegalStateException(employerName + " must name of EmployerEntity");
+        }
+    }
+
+    private void onCharClick(String character) {
+        listOfTextButton.clear();
+        listOfTextButton.addAll(Objects.requireNonNull(mapFirstCharToName.get(character)));
+        employerGridAdapterCallback.updateGridAdapter(3, 2);
     }
 
     private List<String> getListFirstCharOfNameEmployers () {
@@ -76,5 +107,14 @@ public class EmployerGridAdapter extends FitGridAdapter  {
             }
             employerEntities.get(i).setName(stringBuilder.toString());
         }
+    }
+
+    private EmployerEntity getEmployerEntityFromName(String employerName) {
+        for (int i = 0; i < employerEntities.size(); i++) {
+            if (employerEntities.get(i).getName().equals(employerName)) {
+                return employerEntities.get(i);
+            }
+        }
+        return null;
     }
 }

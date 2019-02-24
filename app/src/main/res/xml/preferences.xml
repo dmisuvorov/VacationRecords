@@ -6,4 +6,10 @@
         android:persistent="false">
     </Preference>
 
+    <Preference
+        android:key="button_employer_category_key"
+        android:title="@string/employers"
+        android:persistent="false">
+    </Preference>
+
 </PreferenceScreen>

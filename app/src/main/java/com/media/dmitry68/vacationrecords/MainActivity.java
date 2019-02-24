@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.media.dmitry68.vacationrecords.action.DialogBuilderConfirmationAction;
+
 import com.media.dmitry68.vacationrecords.adapters.EmployerGridAdapter;
+import com.media.dmitry68.vacationrecords.adapters.EmployerGridAdapterCallback;
 import com.media.dmitry68.vacationrecords.calendar.CalendarFactory;
 import com.media.dmitry68.vacationrecords.calendar.CalendarFragment;
 import com.media.dmitry68.vacationrecords.calendar.OnFragmentCalendarInteractionListener;
@@ -24,11 +26,13 @@ import java.util.List;
 
 import co.ceryle.fitgridview.FitGridView;
 
-public class MainActivity extends AppCompatActivity implements OnFragmentCalendarInteractionListener, DialogBuilderCallback, EmployerCallback {
+public class MainActivity extends AppCompatActivity implements OnFragmentCalendarInteractionListener, DialogBuilderCallback, EmployerCallback, EmployerGridAdapterCallback {
     private static final int REQUEST_SETTINGS = 200;
     private CalendarFactory calendarFactory = new CalendarFactory();
     private TextView txtPickDate;
     private TextView txtPickAction;
+    private TextView txtPickEmployer;
+    private FitGridView fitGridView;
     private FragmentManager fragmentManager;
     private AppCompatActivity mainActivity;
     private EmployerGridAdapter fitGridAdapter;
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
         AppCompatButton btnSettings = findViewById(R.id.btn_settings);
         txtPickDate = findViewById(R.id.txt_pick_date);
         txtPickAction = findViewById(R.id.txt_pick_action);
+        txtPickEmployer = findViewById(R.id.txt_pick_employer);
         fragmentManager = getSupportFragmentManager();
 
         btnPickDate.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
 
     @Override
     public void onEmployerLoaded(List<EmployerEntity> employerEntities) {
-        this.fitGridAdapter = new EmployerGridAdapter(getApplicationContext(), employerEntities);
+        this.fitGridAdapter = new EmployerGridAdapter(mainActivity, employerEntities);
         initGridView();
     }
 
@@ -101,17 +106,33 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
     }
 
     @Override
+    public void onPickEmployer(EmployerEntity employerEntity) {
+        txtPickEmployer.setText(employerEntity.getName());
+    }
+
+    @Override
     public void onDialogSetPositiveButton(String actionName) {
         txtPickAction.setText(actionName);
     }
 
+    @Override
+    public void updateGridAdapter(int numRows, int numColumns) {
+        fitGridView.setNumRows(numRows);
+        fitGridView.setNumColumns(numColumns);
+        updateGridView();
+    }
+
     private void initGridView() {
-        FitGridView fitGridView = findViewById(R.id.gridView);
+        fitGridView = findViewById(R.id.gridView);
         fitGridView.setFitGridAdapter(fitGridAdapter);
+        updateGridView();
+    }
+
+    private void updateGridView() {
+        fitGridView.update();
     }
 
     private void resetView() {
-        txtPickDate.setText("");
-        txtPickAction.setText("");
+        fitGridAdapter.resetAdapter();
     }
 }

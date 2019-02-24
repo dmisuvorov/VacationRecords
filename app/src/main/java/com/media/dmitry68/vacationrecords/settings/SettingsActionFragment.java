@@ -3,7 +3,6 @@ package com.media.dmitry68.vacationrecords.settings;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.view.ActionMode;
 
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -13,42 +12,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.media.dmitry68.vacationrecords.R;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
 import com.media.dmitry68.vacationrecords.action.ActionFactory;
 import com.media.dmitry68.vacationrecords.adapters.ActionAdapterCallback;
 import com.media.dmitry68.vacationrecords.adapters.ActionListAdapter;
-import com.media.dmitry68.vacationrecords.ui.BasePickFragment;
+import com.media.dmitry68.vacationrecords.ui.BaseListFragment;
 import com.media.dmitry68.vacationrecords.action.DialogBuilderAddAction;
-import com.media.dmitry68.vacationrecords.ui.DialogBuilderCallback;
 import com.media.dmitry68.vacationrecords.ui.ToolbarActionMode;
-import com.media.dmitry68.vacationrecords.ui.ToolbarActionModeCallback;
 
 import java.util.List;
 
-public class SettingsActionFragment extends BasePickFragment implements ActionSettingsCallback, ToolbarActionModeCallback, DialogBuilderCallback, ActionAdapterCallback {
+public class SettingsActionFragment extends BaseListFragment implements ActionSettingsCallback, ActionAdapterCallback {
     public static final String SETTINGS_ACTION_FRAGMENT_TAG = "settings_action_fragment_tag";
-    private ActionMode actionMode;
     private ActionListAdapter actionAdapter;
-    private ListView actionListView;
     private ActionFactory actionFactory = new ActionFactory();
     private List<ActionEntity> actionEntities;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_action_settings, container, false);
-        initToolbar();
         actionFactory.getActionEntities(this);
-        return rootView;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -60,13 +46,13 @@ public class SettingsActionFragment extends BasePickFragment implements ActionSe
     @Override
     public void onDeleteAction(ActionEntity actionEntity) {
         actionEntities.remove(actionEntity);
-        actionAdapter.notifyDataSetChanged();
+        actionAdapter.updateAdapter();
     }
 
     @Override
     public void onAddAction(ActionEntity actionEntity) {
         actionEntities.add(actionEntity);
-        actionAdapter.notifyDataSetChanged();
+        actionAdapter.updateAdapter();
     }
 
     @Override
@@ -121,15 +107,15 @@ public class SettingsActionFragment extends BasePickFragment implements ActionSe
         actionFactory.updateActionEntityColor(this, updateActionEntity, newColorHex);
     }
 
-    private void initList() {
+    @Override
+    protected void initList() {
         actionAdapter = new ActionListAdapter(getContext(), actionEntities, this);
-        actionListView = rootView.findViewById(R.id.action_list_view);
-        actionListView.setAdapter(actionAdapter);
+        entityListView.setAdapter(actionAdapter);
         implementListViewClickListener();
     }
 
     private void implementListViewClickListener() {
-        actionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        entityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (actionMode != null) {
@@ -137,7 +123,7 @@ public class SettingsActionFragment extends BasePickFragment implements ActionSe
                 }
             }
         });
-        actionListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        entityListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 onListItemSelect(position);

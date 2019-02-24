@@ -16,6 +16,4 @@ public class ActionAdapter extends ArrayAdapter<ActionEntity> {
         this.context = context;
         this.actionEntities = actionEntities;
     }
-
-
 }
