@@ -12,14 +12,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.media.dmitry68.vacationrecords.R;
+import com.media.dmitry68.vacationrecords.adapters.BaseVacationAdapter;
 
 public abstract class BaseListFragment extends Fragment implements ToolbarActionModeCallback, DialogBuilderCallback {
     protected AppCompatActivity parentActivity;
     protected FragmentManager fragmentManager;
     protected ActionMode actionMode;
+    protected BaseVacationAdapter entityAdapter;
     protected View rootView;
     protected ListView entityListView;
 
@@ -60,4 +63,34 @@ public abstract class BaseListFragment extends Fragment implements ToolbarAction
     }
 
     protected abstract void initList();
+
+    protected void implementListViewClickListener(final BaseVacationAdapter adapter) {
+        entityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (actionMode != null) {
+                    onListItemSelect(position, adapter);
+                }
+            }
+        });
+        entityListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                onListItemSelect(position, adapter);
+                return true;
+            }
+        });
+    }
+
+    protected void onListItemSelect(int position, BaseVacationAdapter adapter) {
+        adapter.toggleSelection(position);
+        boolean hasCheckedItems = adapter.getSelectedCount() > 0;
+        if (hasCheckedItems && actionMode == null) {
+            if (parentActivity != null) {
+                actionMode = parentActivity.startSupportActionMode(new ToolbarActionMode(this, adapter));
+            }
+        } else if (!hasCheckedItems && actionMode != null){
+            actionMode.finish();
+        }
+    }
 }

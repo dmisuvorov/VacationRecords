@@ -18,7 +18,6 @@ import java.util.List;
 public class SettingsEmployerFragment extends BaseListFragment implements EmployerSettingsCallback, EmployerAdapterCallback {
     public static final String SETTINGS_EMPLOYER_FRAGMENT_TAG = "settings_employer_fragment_tag";
     private EmployerFactory employerFactory = new EmployerFactory();
-    private EmployerListAdapter employerListAdapter;
     private List<EmployerEntity> employerEntities;
 
     @Nullable
@@ -36,19 +35,21 @@ public class SettingsEmployerFragment extends BaseListFragment implements Employ
 
     @Override
     protected void initList() {
-        employerListAdapter = new EmployerListAdapter(getContext(), employerEntities, this);
+        entityAdapter = new EmployerListAdapter(getContext(), employerEntities, this);
+        entityListView.setAdapter((EmployerListAdapter) entityAdapter);
+        implementListViewClickListener(entityAdapter);
     }
 
     @Override
     public void onDeleteEmployer(EmployerEntity employerEntity) {
 
-        employerListAdapter.updateAdapter();
+        entityAdapter.updateAdapter();
     }
 
     @Override
     public void onAddEmployer(EmployerEntity employerEntity) {
 
-        employerListAdapter.updateAdapter();
+        entityAdapter.updateAdapter();
     }
 
     @Override

@@ -80,15 +80,18 @@ public class ActionListAdapter extends ActionAdapter implements BaseVacationAdap
         notifyDataSetChanged();
     }
 
+    @Override
     public SparseBooleanArray getSelectedActionEntities() {
         return selectorOfActionEntities.getSelectedEntities();
     }
 
+    @Override
     public void toggleSelection(int position) {
         selectorOfActionEntities.toggleSelection(position);
         notifyDataSetChanged();
     }
 
+    @Override
     public int getSelectedCount() {
         return selectorOfActionEntities.getSelectedCount();
     }

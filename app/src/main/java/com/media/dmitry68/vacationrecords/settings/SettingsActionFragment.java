@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.media.dmitry68.vacationrecords.R;
 import com.media.dmitry68.vacationrecords.action.ActionEntity;
@@ -20,13 +19,11 @@ import com.media.dmitry68.vacationrecords.adapters.ActionAdapterCallback;
 import com.media.dmitry68.vacationrecords.adapters.ActionListAdapter;
 import com.media.dmitry68.vacationrecords.ui.BaseListFragment;
 import com.media.dmitry68.vacationrecords.action.DialogBuilderAddAction;
-import com.media.dmitry68.vacationrecords.ui.ToolbarActionMode;
 
 import java.util.List;
 
 public class SettingsActionFragment extends BaseListFragment implements ActionSettingsCallback, ActionAdapterCallback {
     public static final String SETTINGS_ACTION_FRAGMENT_TAG = "settings_action_fragment_tag";
-    private ActionListAdapter actionAdapter;
     private ActionFactory actionFactory = new ActionFactory();
     private List<ActionEntity> actionEntities;
 
@@ -46,13 +43,13 @@ public class SettingsActionFragment extends BaseListFragment implements ActionSe
     @Override
     public void onDeleteAction(ActionEntity actionEntity) {
         actionEntities.remove(actionEntity);
-        actionAdapter.updateAdapter();
+        entityAdapter.updateAdapter();
     }
 
     @Override
     public void onAddAction(ActionEntity actionEntity) {
         actionEntities.add(actionEntity);
-        actionAdapter.updateAdapter();
+        entityAdapter.updateAdapter();
     }
 
     @Override
@@ -67,7 +64,7 @@ public class SettingsActionFragment extends BaseListFragment implements ActionSe
 
     @Override
     public void deleteRows() {
-        SparseBooleanArray selected = actionAdapter.getSelectedActionEntities();
+        SparseBooleanArray selected = entityAdapter.getSelectedActionEntities();
         for (int i = (selected.size() - 1); i >= 0; i--) {
             actionFactory.deleteActionEntity(this, actionEntities.get(selected.keyAt(i)));
         }
@@ -109,38 +106,8 @@ public class SettingsActionFragment extends BaseListFragment implements ActionSe
 
     @Override
     protected void initList() {
-        actionAdapter = new ActionListAdapter(getContext(), actionEntities, this);
-        entityListView.setAdapter(actionAdapter);
-        implementListViewClickListener();
-    }
-
-    private void implementListViewClickListener() {
-        entityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (actionMode != null) {
-                    onListItemSelect(position);
-                }
-            }
-        });
-        entityListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                onListItemSelect(position);
-                return true;
-            }
-        });
-    }
-
-    private void onListItemSelect(int position) {
-        actionAdapter.toggleSelection(position);
-        boolean hasCheckedItems = actionAdapter.getSelectedCount() > 0;
-        if (hasCheckedItems && actionMode == null) {
-            if (parentActivity != null) {
-                actionMode = parentActivity.startSupportActionMode(new ToolbarActionMode(this, actionAdapter));
-            }
-        } else if (!hasCheckedItems && actionMode != null){
-            actionMode.finish();
-        }
+        entityAdapter = new ActionListAdapter(getContext(), actionEntities, this);
+        entityListView.setAdapter((ActionListAdapter) entityAdapter);
+        implementListViewClickListener(entityAdapter);
     }
 }

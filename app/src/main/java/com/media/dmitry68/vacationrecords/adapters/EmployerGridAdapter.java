@@ -43,7 +43,8 @@ public class EmployerGridAdapter extends FitGridAdapter  {
 
     @Override
     public void onBindView(int position, View view) {
-        final Button gridButton = view.findViewById(R.id.gridButton);
+        EmployerViewHolder employerViewHolder = new EmployerViewHolder();
+        final Button gridButton = employerViewHolder.getEmployerButton(view);
         gridButton.setText(listOfTextButton.get(position));
         gridButton.setOnClickListener(new View.OnClickListener() {
             @Override
