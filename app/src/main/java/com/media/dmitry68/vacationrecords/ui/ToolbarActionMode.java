@@ -12,7 +12,7 @@ public class ToolbarActionMode implements ActionMode.Callback {
     private ToolbarActionModeCallback toolbarActionModeCallback;
     private BaseVacationAdapter baseVacationAdapter;
 
-    public ToolbarActionMode(ToolbarActionModeCallback toolbarActionModeCallback, BaseVacationAdapter baseVacationAdapter) {
+    ToolbarActionMode(ToolbarActionModeCallback toolbarActionModeCallback, BaseVacationAdapter baseVacationAdapter) {
         this.toolbarActionModeCallback = toolbarActionModeCallback;
         this.baseVacationAdapter = baseVacationAdapter;
     }

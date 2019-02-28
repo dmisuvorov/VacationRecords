@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +39,13 @@ public class SettingsActionFragment extends BaseListFragment implements ActionSe
     }
 
     @Override
+    protected void initList() {
+        entityAdapter = new ActionListAdapter(getContext(), actionEntities, this);
+        entityListView.setAdapter((ActionListAdapter) entityAdapter);
+        implementListViewClickListener(entityAdapter);
+    }
+
+    @Override
     public void onDeleteAction(ActionEntity actionEntity) {
         actionEntities.remove(actionEntity);
         entityAdapter.updateAdapter();
@@ -59,29 +64,14 @@ public class SettingsActionFragment extends BaseListFragment implements ActionSe
 
     @Override
     public void onDataNotAvailable() {
-        throw new IllegalStateException("Error: Data not available");
+        throw new IllegalStateException("Error: ActionEntity not available");
     }
 
     @Override
-    public void deleteRows() {
-        SparseBooleanArray selected = entityAdapter.getSelectedActionEntities();
+    public void deleteEntity(SparseBooleanArray selected) {
         for (int i = (selected.size() - 1); i >= 0; i--) {
             actionFactory.deleteActionEntity(this, actionEntities.get(selected.keyAt(i)));
         }
-        actionMode.finish();
-    }
-
-    @Override
-    public void setNullToActionMode() {
-        if (actionMode != null) {
-            actionMode = null;
-        }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        parentActivity.getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -102,12 +92,5 @@ public class SettingsActionFragment extends BaseListFragment implements ActionSe
     @Override
     public void onUpdateItemColor(ActionEntity updateActionEntity, String newColorHex) {
         actionFactory.updateActionEntityColor(this, updateActionEntity, newColorHex);
-    }
-
-    @Override
-    protected void initList() {
-        entityAdapter = new ActionListAdapter(getContext(), actionEntities, this);
-        entityListView.setAdapter((ActionListAdapter) entityAdapter);
-        implementListViewClickListener(entityAdapter);
     }
 }

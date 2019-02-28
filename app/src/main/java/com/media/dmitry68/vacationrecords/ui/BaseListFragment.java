@@ -9,7 +9,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -43,6 +46,30 @@ public abstract class BaseListFragment extends Fragment implements ToolbarAction
         return rootView;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        parentActivity.getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void deleteRows() {
+        SparseBooleanArray selected = entityAdapter.getSelectedActionEntities();
+        deleteEntity(selected);
+        actionMode.finish();
+    }
+
+    @Override
+    public void setNullToActionMode() {
+        if (actionMode != null) {
+            actionMode = null;
+        }
+    }
+
+    protected abstract void initList();
+
+    protected abstract void deleteEntity(SparseBooleanArray selected);
+
     protected void initToolbar() {
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         if (parentActivity != null) {
@@ -61,8 +88,6 @@ public abstract class BaseListFragment extends Fragment implements ToolbarAction
             }
         }
     }
-
-    protected abstract void initList();
 
     protected void implementListViewClickListener(final BaseVacationAdapter adapter) {
         entityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

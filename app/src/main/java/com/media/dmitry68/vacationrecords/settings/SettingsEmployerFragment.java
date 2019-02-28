@@ -3,6 +3,7 @@ package com.media.dmitry68.vacationrecords.settings;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +60,14 @@ public class SettingsEmployerFragment extends BaseListFragment implements Employ
 
     @Override
     public void onDataNotAvailable() {
-
+        throw new IllegalStateException("Error: EmployerEntity not available");
     }
 
     @Override
-    public void deleteRows() {
-
+    protected void deleteEntity(SparseBooleanArray selected) {
+        for (int i = (selected.size() - 1); i >= 0; i--) {
+            employerFactory.deleteEmployerEntity(this, employerEntities.get(selected.keyAt(i)));
+        }
     }
 
     @Override
