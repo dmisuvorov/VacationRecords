@@ -16,7 +16,7 @@ import com.media.dmitry68.vacationrecords.action.ActionFactory;
 import com.media.dmitry68.vacationrecords.adapters.ActionAdapterCallback;
 import com.media.dmitry68.vacationrecords.adapters.ActionListAdapter;
 import com.media.dmitry68.vacationrecords.ui.BaseListFragment;
-import com.media.dmitry68.vacationrecords.action.DialogBuilderAddAction;
+import com.media.dmitry68.vacationrecords.ui.DialogBuilderEntity;
 
 import java.util.List;
 
@@ -35,12 +35,13 @@ public class SettingsActionFragment extends BaseListFragment implements ActionSe
     @Override
     public void onActionLoaded(List<ActionEntity> actionEntities) {
         this.actionEntities = actionEntities;
-        initList();
+        if (getActivity() != null)
+            initList();
     }
 
     @Override
     protected void initList() {
-        entityAdapter = new ActionListAdapter(getContext(), actionEntities, this);
+        entityAdapter = new ActionListAdapter(getActivity(), actionEntities, this);
         entityListView.setAdapter((ActionListAdapter) entityAdapter);
         implementListViewClickListener(entityAdapter);
     }
@@ -60,6 +61,7 @@ public class SettingsActionFragment extends BaseListFragment implements ActionSe
     @Override
     public void onUpdateAction(ActionEntity actionEntity) {
         actionEntities.set(actionEntities.indexOf(actionEntity), actionEntity);
+        entityAdapter.updateAdapter();
     }
 
     @Override
@@ -78,8 +80,8 @@ public class SettingsActionFragment extends BaseListFragment implements ActionSe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_action_add:
-                DialogBuilderAddAction dialogBuilderAddAction = new DialogBuilderAddAction(getContext(), this);
-                dialogBuilderAddAction.showDialog();
+                DialogBuilderEntity dialogBuilderAddAction = new DialogBuilderEntity(getContext(), this);
+                dialogBuilderAddAction.showDialog(getString(R.string.title_dialog_new_action), getString(R.string.action), "");
         }
         return super.onOptionsItemSelected(item);
     }

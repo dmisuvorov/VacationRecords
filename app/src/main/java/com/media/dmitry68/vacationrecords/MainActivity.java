@@ -82,7 +82,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
             }
         });
 
-        employerFactory.getEmployerEntities(this);
+        loadListOfEmployers();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadListOfEmployers();
     }
 
     @Override
@@ -122,10 +128,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentCalenda
         updateGridView();
     }
 
+    private void loadListOfEmployers() {
+        employerFactory.getEmployerEntities(this);
+    }
+
     private void initGridView() {
         fitGridView = findViewById(R.id.gridView);
         fitGridView.setFitGridAdapter(fitGridAdapter);
-        updateGridView();
+        resetView();
     }
 
     private void updateGridView() {

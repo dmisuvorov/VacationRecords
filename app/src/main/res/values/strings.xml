@@ -13,8 +13,12 @@
     <string name="action_delete">Delete</string>
     <string name="action_add">Add</string>
     <string name="action">Action</string>
+    <string name="employer">Employer</string>
     <string name="title_dialog_new_action">Add new action</string>
+    <string name="title_dialog_new_employer">Add new employer</string>
+    <string name="title_dialog_update_employer">Update employer</string>
     <string name="title_dialog_pick_action">Pick action</string>
     <string name="employers">Employers</string>
+    <string name="btn_text_process_info">Process</string>
 
 </resources>

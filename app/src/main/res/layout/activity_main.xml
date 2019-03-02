@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="110dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -80,6 +80,15 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
                     android:layout_toEndOf="@+id/txt_pick_action"/>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_process_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/card_element_margin"
+                    android:layout_marginEnd="@dimen/card_element_margin"
+                    android:layout_toEndOf="@+id/txt_pick_employer"
+                    android:text="@string/btn_text_process_info" />
             </RelativeLayout>
 
         </LinearLayout>

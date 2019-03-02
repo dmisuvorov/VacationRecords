@@ -38,7 +38,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     private void navigateToFragmentPreference(Fragment fragmentClass, String tag) {
         fragmentManager.beginTransaction()
-                .add(android.R.id.content, fragmentClass)
+                .replace(android.R.id.content, fragmentClass)
                 .addToBackStack(tag)
                 .commit();
     }

@@ -72,7 +72,7 @@ public class EmployerFactory extends ItemFactory {
 
                     @Override
                     public void onComplete() {
-                        employerCallback.onDeleteEmployer(newEmployerEntity);
+                        employerCallback.onAddEmployer(newEmployerEntity);
                     }
 
                     @Override

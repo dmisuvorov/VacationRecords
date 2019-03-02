@@ -9,11 +9,15 @@
     <string name="btn_text_settings">Настройки</string>
     <string name="actions">Действия</string>
     <string name="action">Действие</string>
+    <string name="employer">Работник</string>
     <string name="vacation">Отпуск</string>
     <string name="sickLeave">Больничный</string>
     <string name="action_delete">Удалить</string>
     <string name="action_add">Добавить</string>
     <string name="title_dialog_new_action">Добавьте новое действие</string>
+    <string name="title_dialog_new_employer">Добавьте нового сотрудника</string>
+    <string name="title_dialog_update_employer">Измените имя сотрудника</string>
     <string name="title_dialog_pick_action">Выберете действие</string>
     <string name="employers">Работники</string>
+    <string name="btn_text_process_info">Обработать данные</string>
 </resources>

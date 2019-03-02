@@ -36,7 +36,8 @@ public class ActionListAdapter extends ActionAdapter implements BaseVacationAdap
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         ActionViewHolder actionViewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context)
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater
                     .inflate(R.layout.listview_action_item, parent, false);
             actionViewHolder = new ActionViewHolder(convertView, R.id.text_action, R.id.color_image_action);
             convertView.setTag(actionViewHolder);

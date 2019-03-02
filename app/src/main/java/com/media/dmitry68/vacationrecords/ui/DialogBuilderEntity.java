@@ -1,40 +1,46 @@
-package com.media.dmitry68.vacationrecords.action;
+package com.media.dmitry68.vacationrecords.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
 
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.media.dmitry68.vacationrecords.R;
-import com.media.dmitry68.vacationrecords.ui.DialogBuilderCallback;
 
-public class DialogBuilderAddAction {
+public class DialogBuilderEntity {
     private Context context;
-    private String actionName;
+    private String entity;
     private DialogBuilderCallback callback;
 
-    public DialogBuilderAddAction(Context context, DialogBuilderCallback callback) {
+    public DialogBuilderEntity(Context context, DialogBuilderCallback callback) {
         this.context = context;
         this.callback = callback;
     }
 
-    public void showDialog() {
+    public void showDialog(String textDialogTitle, String textHint, String textEntity) {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View dialogView = inflater.inflate(R.layout.dialog_add_action, null);
+        final View dialogView = inflater.inflate(R.layout.dialog_manager_entity, null);
         dialogBuilder.setView(dialogView);
 
-        final EditText editTextAction = dialogView.findViewById(R.id.edit_text_action);
+        final EditText editTextEntity = dialogView.findViewById(R.id.edit_text_entity);
+        final TextInputLayout textInputLayout = dialogView.findViewById(R.id.manageTaskEntityLayout);
 
-        dialogBuilder.setTitle(R.string.title_dialog_new_action);
+        editTextEntity.setText(textEntity, TextView.BufferType.EDITABLE);
+
+        textInputLayout.setHint(textHint);
+
+        dialogBuilder.setTitle(textDialogTitle);
         dialogBuilder.setPositiveButton(context.getString(R.string.btn_text_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                actionName = editTextAction.getText().toString().trim();
-                callback.onDialogSetPositiveButton(actionName);
+                entity = editTextEntity.getText().toString().trim();
+                callback.onDialogSetPositiveButton(entity);
             }
         });
         dialogBuilder.setNegativeButton(context.getString(R.string.btn_text_cancel), new DialogInterface.OnClickListener() {
